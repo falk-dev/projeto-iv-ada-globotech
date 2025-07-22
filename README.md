@@ -47,14 +47,12 @@ Consultas desenvolvidas em SQL para análises como:
 - Ranking de conteúdos mais consumidos (por tempo total de consumo)
 - Plataforma com maior engajamento (`like`, `share`, `comment`)
 - Lista de conteúdos mais comentados
-- Quantidade total de interações por tipo
-- Outros insights replicando os relatórios desenvolvidos em Python
 
 ---
 
 ## 🧪 Tecnologias Utilizadas
 
 - MySQL
-- Python (para scripts auxiliares e carga de dados)
+- Python
 - SQL (DDL, DML, DQL)
 - Ferramentas de modelagem: draw.io
