@@ -1,0 +1,13 @@
+{
+   "workbench.colorCustomizations": {
+      "terminal.background": "#000011",
+      "terminal.foreground": "#00FFCC",
+      "terminal.selectionBackground": "#0071BC",
+      "terminal.selectionForeground": "#bf0044",
+      "editor.background": "#000011",
+      "editor.foreground": "#e7e7e7",
+      "editor.selectionBackground": "#bf0044",
+      "editor.selectionForeground": "#0071BC"
+   },
+   "peacock.color": "#000011, #000044, #00FFCC"
+}
