@@ -1,6 +1,5 @@
 import pandas as pd
-from sqlalchemy import text
-from conexao_sqlalchemy import criar_engine_mysql
+from sqlalchemy import create_engine, text
 
 # Carrega o CSV
 df = pd.read_csv("interacoes_globo.csv")
@@ -8,15 +7,56 @@ df = pd.read_csv("interacoes_globo.csv")
 # Corrige o tipo_interacao
 df["tipo_interacao"] = df["tipo_interacao"].replace({"view_start": "view"})
 
-# Conecta ao MySQL
-engine = criar_engine_mysql("root", "sua_senha")
+# Conecta ao SQLite (arquivo local)
+engine = create_engine("sqlite:///globo_tech.db", echo=True)
+
+# Cria tabelas no SQLite se não existirem
+with engine.begin() as conn:
+    # Tabela de plataformas
+    conn.execute(text("""
+        CREATE TABLE IF NOT EXISTS plataforma (
+            id_plataforma INTEGER PRIMARY KEY AUTOINCREMENT,
+            nome TEXT UNIQUE
+        );
+    """))
+    # Tabela de usuários
+    conn.execute(text("""
+        CREATE TABLE IF NOT EXISTS usuario (
+            id_usuario INTEGER PRIMARY KEY
+        );
+    """))
+    # Tabela de conteúdos
+    conn.execute(text("""
+        CREATE TABLE IF NOT EXISTS conteudo (
+            id_conteudo INTEGER PRIMARY KEY,
+            nome_conteudo TEXT,
+            tipo_conteudo TEXT NOT NULL,
+            id_plataforma INTEGER NOT NULL,
+            FOREIGN KEY(id_plataforma) REFERENCES plataforma(id_plataforma)
+        );
+    """))
+    # Tabela de interações
+    conn.execute(text("""
+        CREATE TABLE IF NOT EXISTS interacao (
+            id_interacao INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_usuario INTEGER NOT NULL,
+            id_conteudo INTEGER NOT NULL,
+            id_plataforma INTEGER NOT NULL,
+            tipo_interacao TEXT NOT NULL,
+            data_interacao DATETIME NOT NULL,
+            watch_duration_seconds INTEGER DEFAULT 0,
+            FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario),
+            FOREIGN KEY(id_conteudo) REFERENCES conteudo(id_conteudo),
+            FOREIGN KEY(id_plataforma) REFERENCES plataforma(id_plataforma)
+        );
+    """))
 
 # ======= Inserir plataformas (evitando duplicatas) =======
 plataformas = df["plataforma"].unique()
 with engine.begin() as conn:
    for nome in plataformas:
       conn.execute(text("""
-         INSERT IGNORE INTO plataforma (nome) VALUES (:nome)
+         INSERT OR IGNORE INTO plataforma (nome) VALUES (:nome)
       """), {"nome": nome})
 
 # ======= Inserir usuários (evitando duplicatas) =======
@@ -24,22 +64,32 @@ usuarios = df["id_usuario"].unique()
 with engine.begin() as conn:
    for id_usuario in usuarios:
       conn.execute(text("""
-         INSERT IGNORE INTO usuario (id_usuario) VALUES (:id_usuario)
+         INSERT OR IGNORE INTO usuario (id_usuario) VALUES (:id_usuario)
       """), {"id_usuario": int(id_usuario)})
 
+# ======= Obter mapeamento plataforma => id_plataforma =======
+df_plataformas = pd.read_sql("SELECT id_plataforma, nome FROM plataforma", con=engine)
+mapa_plataformas = dict(zip(df_plataformas["nome"], df_plataformas["id_plataforma"]))
+
 # ======= Inserir conteúdos (evitando duplicatas) =======
-conteudos = df[["id_conteudo", "nome_conteudo"]].drop_duplicates()
+conteudos = df[["id_conteudo", "nome_conteudo", "plataforma"]].drop_duplicates()
 with engine.begin() as conn:
    for _, row in conteudos.iterrows():
+      # obtém o id da plataforma a partir do nome
+      id_plat = mapa_plataformas[row["plataforma"]]
       conn.execute(text("""
-         INSERT IGNORE INTO conteudo (id_conteudo, nome_conteudo, tipo_conteudo, id_plataforma)
-         VALUES (:id_conteudo, :nome_conteudo, 'Vídeo', 1) -- Ajuste tipo e id_plataforma se necessário
+         INSERT OR IGNORE INTO conteudo 
+            (id_conteudo, nome_conteudo, tipo_conteudo, id_plataforma)
+         VALUES 
+            (:id_conteudo, :nome_conteudo, :tipo_conteudo, :id_plataforma)
       """), {
          "id_conteudo": int(row["id_conteudo"]),
-         "nome_conteudo": row["nome_conteudo"]
+         "nome_conteudo": row["nome_conteudo"],
+         "tipo_conteudo": "Vídeo",  # ou derive de row, se tiver outras categorias
+         "id_plataforma": int(id_plat)
       })
 
-# ======= Obter mapeamento plataforma => id_plataforma =======
+# ======= Inserir na tabela interacao ======= => id_plataforma =======
 df_plataformas = pd.read_sql("SELECT id_plataforma, nome FROM plataforma", con=engine)
 mapa_plataformas = dict(zip(df_plataformas["nome"], df_plataformas["id_plataforma"]))
 
