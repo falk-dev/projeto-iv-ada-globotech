@@ -77,5 +77,3 @@ Abaixo você encontra os slides que apresentamos durante nossa entrega: os objet
 ## 📝 Observações
 
 Este repositório representa nosso progresso prático na disciplina **DS-PY-02 - Banco de dados**, incluindo modelagem relacional (MER/DER), scripts DDL, carga de dados (DML), consultas DQL e otimização de performance com índices e planos de execução.
-
----
