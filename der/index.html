@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagrama de Entidade-Relacionamento</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <h1>Diagrama de Entidade-Relacionamento - Banco GloboTech</h1>
+  <p>
+    Este é um Diagrama de Entidade-Relacionamento que descreve a estrutura de dados de uma aplicação de análise de
+    interações entre usuários, conteúdos e plataformas.
+  </p>
+
+
+  <img src="images/der.svg" alt="Diagrama de Entidade-Relacionamento do projeto Banco GloboTech.">
+
+  <div class="legenda">
+    <h3>Legenda</h3>
+    <ul>
+      <li><strong>PK - Chave Primária:</strong> identifica unicamente cada registro (linha) em uma tabela.</li>
+      <li><strong>FK - Chave Estrangeira:</strong> cria ligação com outra tabela.</li>
+      <li><strong>Cardinalidade:</strong> indica o número de conexões (ou registros) que podem existir entre duas
+        tabelas.</li>
+    </ul>
+  </div>
+
+  <h2>Descrições Detalhadas das Entidades (Tabelas)</h2>
+  <p>
+    A seguir, as descrições de cada uma das tabelas do diagrama, com seus respectivos atributos:
+  </p>
+
+  <h3>Tabela <code>usuario</code></h3>
+  <p>
+    <strong>Propósito:</strong> Esta tabela armazena informações sobre os usuários que interagem com a aplicação.
+  </p>
+  <ul>
+    <li><code>id_usuario</code> <strong>(Chave Primária - PK):</strong> Um número inteiro que identifica cada usuário de
+      forma única no sistema.</li>
+  </ul>
+
+  <h3>Tabela <code>plataforma</code></h3>
+  <p>
+    <strong>Propósito:</strong> Esta tabela lista as diferentes plataformas onde ocorrem as interações.
+  </p>
+  <ul>
+    <li><code>id_plataforma</code> <strong>(Chave Primária - PK):</strong> Um número inteiro que identifica cada
+      plataforma de forma única.</li>
+    <li><code>nome</code>: Um texto (varchar) de até 100 caracteres que contém o nome da plataforma.</li>
+  </ul>
+
+  <h3>Tabela <code>conteudo</code></h3>
+  <p>
+    <strong>Propósito:</strong> Esta tabela armazena informações sobre os conteúdos que os usuários interagem, como
+    vídeos, artigos, podcasts etc.
+  </p>
+  <ul>
+    <li><code>id_conteudo</code> <strong>(Chave Primária - PK):</strong> Um número inteiro que identifica cada conteúdo
+      de forma única.</li>
+    <li><code>nome_conteudo</code>: Um texto (varchar) de até 255 caracteres com o nome do conteúdo.</li>
+    <li><code>tipo_conteudo</code>: Um texto (varchar) de até 50 caracteres que especifica o tipo do conteúdo (por
+      exemplo: "vídeo", "artigo").</li>
+    <li><code>id_plataforma</code> <strong>(Chave Estrangeira - FK):</strong> Um número inteiro que se conecta à tabela
+      <code>plataforma</code>, indicando em qual plataforma este conteúdo foi publicado.
+    </li>
+  </ul>
+
+  <h3>Tabela <code>interacao</code></h3>
+  <p>
+    <strong>Propósito:</strong> Esta é a tabela central que registra todas as interações dos usuários com os conteúdos.
+    Ela conecta as outras três tabelas para registrar quem (usuário) fez o quê (tipo de interação), quando, por quanto
+    tempo e com qual conteúdo e plataforma.
+  </p>
+  <ul>
+    <li><code>id_interacao</code> <strong>(Chave Primária - PK):</strong> Um número inteiro que identifica cada
+      interação de forma única.</li>
+    <li><code>id_usuario</code> <strong>(Chave Estrangeira - FK):</strong> Um número inteiro que se conecta à tabela
+      <code>usuario</code>, indicando qual usuário realizou a interação.
+    </li>
+    <li><code>id_plataforma</code> <strong>(Chave Estrangeira - FK):</strong> Um número inteiro que se conecta à tabela
+      <code>plataforma</code>, indicando em qual plataforma a interação ocorreu.
+    </li>
+    <li><code>id_conteudo</code> <strong>(Chave Estrangeira - FK):</strong> Um número inteiro que se conecta à tabela
+      <code>conteudo</code>, indicando com qual conteúdo a interação foi feita.
+    </li>
+    <li><code>tipo_interacao</code>: Um campo de enumeração que pode ter um dos seguintes valores: 'like', 'share' ou
+      'comment'.</li>
+    <li><code>data_interacao</code>: Uma data e hora (datetime) que registra o momento em que a interação aconteceu.
+    </li>
+    <li><code>watch_duration_seconds</code>: Um número inteiro que registra a duração da interação em segundos.</li>
+  </ul>
+
+  <h2>Cardinalidades</h2>
+  <p>
+    A seguir, as descrições dos relacionamentos e suas cardinalidades entre as entidades:
+  </p>
+  <ul>
+    <li><strong>Usuário e Interação:</strong> A cardinalidade é Um para Muitos (1:N). Isso significa que um usuário
+      pode realizar múltiplas interações, mas cada interação está ligada a apenas um usuário.</li>
+    <li><strong>Plataforma e Interação:</strong> A cardinalidade é Um para Muitos (1:N). Uma plataforma pode ter
+      muitas interações registradas, mas cada interação ocorre em uma única plataforma.</li>
+    <li><strong>Conteúdo e Interação:</strong> A cardinalidade é Um para Muitos (1:N). Um conteúdo pode ter
+      muitas interações associadas, mas cada interação está ligada a apenas um conteúdo.</li>
+    <li><strong>Plataforma e Conteúdo:</strong> A cardinalidade é Um para Muitos (1:N). Uma plataforma pode ter
+      muitos conteúdos, mas cada conteúdo pertence a uma única plataforma.</li>
+  </ul>
+
+</body>
+
+</html>
