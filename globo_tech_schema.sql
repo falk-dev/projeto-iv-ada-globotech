@@ -65,7 +65,7 @@ LIMIT 10;
 -- 2. Plataforma com maior engajamento (like, share, comment)
 -- COUNT(): conta o total de interações
 -- WHERE IN: filtra pelos tipos de engajamento
-SELECT p.nome, COUNT() AS total_engajamento
+SELECT p.nome, COUNT(*) AS total_engajamento
 FROM interacao i
 JOIN plataforma p ON i.id_plataforma = p.id_plataforma
 WHERE i.tipo_interacao IN ('like', 'share', 'comment')
@@ -88,11 +88,9 @@ WHERE i.tipo_interacao IN ('like', 'comment', 'share', 'view')
 GROUP BY p.nome
 ORDER BY total_engajamento DESC;
 
--- 4. Conteúdos mais comentados
--- COUNT(): total de comentários por conteúdo
 SELECT 
     c.id_conteudo, c.nome_conteudo, 
-    COUNT() AS total_comentarios
+    COUNT(*) AS total_comentarios
 FROM interacao i
 JOIN conteudo c ON i.id_conteudo = c.id_conteudo
 WHERE i.tipo_interacao = 'comment'
@@ -142,6 +140,15 @@ WHERE i.tipo_interacao = 'view'
 GROUP BY p.nome, c.nome_conteudo
 ORDER BY total_assistidos DESC
 LIMIT 10;
+
+-- Tabela relatorios_sql
+CREATE TABLE IF NOT EXISTS relatorios_sql (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    descricao TEXT,
+    query_sql TEXT NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- 9. Usuários mais ativos por plataforma
 -- Agrupamento duplo por usuário e plataforma
@@ -228,3 +235,12 @@ JOIN plataforma p ON i.id_plataforma = p.id_plataforma
 GROUP BY u.id_usuario, p.nome
 ORDER BY total_interacoes DESC
 LIMIT 10;
+
+-- 6. Tabela para armazenar relatórios SQL
+CREATE TABLE IF NOT EXISTS relatorios_sql (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    descricao TEXT,
+    query_sql TEXT NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
