@@ -1,9 +1,7 @@
-<<<<<<< HEAD
+@"
 __pycache__/
 *.pyc
+*.db
 .env
-=======
-.env
-__pycache__
-.vscode
->>>>>>> main
+/relatorios/*.csv
+"@ | Out-File -FilePath .gitignore -Encoding utf8
