@@ -1,3 +1,4 @@
+# utils.py
 import pandas as pd
 
 def validar_dataframe(df: pd.DataFrame) -> pd.DataFrame:
