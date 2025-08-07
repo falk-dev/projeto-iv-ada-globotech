@@ -1,4 +1,4 @@
-# 🗃️ Projeto Unificado — Fase 4  
+# 🗃️ Ada x Globotech: Projeto Unificado — Fase 4  
 
 ## 👥 Integrantes do grupo
 
