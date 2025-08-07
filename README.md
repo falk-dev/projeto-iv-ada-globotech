@@ -1,4 +1,24 @@
 # 🗃️ Projeto Unificado — Fase 4  
+
+## 👥 Integrantes do grupo
+
+- [@falk-dev](https://github.com/falk-dev)
+- [@aliceochoa](https://github.com/aliceochoa)
+- [@Williannca85](https://github.com/Williannca85)
+- [@devrsmenezes](https://github.com/devrsmenezes)
+- [@isabelacmaia](https://github.com/isabelacmaia)
+- [@ugabiraposo](https://github.com/ugabiraposo)
+
+---
+
+## Projetos Anteriores
+
+- [Projeto I](https://github.com/falk-dev/projeto-i-ada-globotech)
+- [Projeto II](https://github.com/falk-dev/projeto-ii-ada-globotech)
+- [Projeto III](https://github.com/falk-dev/projeto-iii-ada-globotech)
+
+---
+
 ## Persistência e Análise de Engajamento com Banco de Dados Relacional
 
 ![Capa do projeto IV DS-PY-02 com os logos da Ada e da Globo ao topo, fundo gradiente roxo-azul e o botão “Grupo Pythonautas”](images/apresentacao.jpg)
