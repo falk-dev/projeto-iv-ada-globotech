@@ -11,7 +11,7 @@
 
 ---
 
-## Projetos Anteriores
+## 📁 Projetos Anteriores
 
 - [Projeto I](https://github.com/falk-dev/projeto-i-ada-globotech)
 - [Projeto II](https://github.com/falk-dev/projeto-ii-ada-globotech)
@@ -19,7 +19,7 @@
 
 ---
 
-## Persistência e Análise de Engajamento com Banco de Dados Relacional
+## 📊 Projeto IV - Persistência e Análise de Engajamento com Banco de Dados Relacional
 
 ![Capa do projeto IV DS-PY-02 com os logos da Ada e da Globo ao topo, fundo gradiente roxo-azul e o botão “Grupo Pythonautas”](images/apresentacao.jpg)
 
